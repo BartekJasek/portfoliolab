@@ -24,7 +24,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Category(models.Model):
-    name = models.TextField
+    name = models.TextField()
 
 
 class Institution(models.Model):
@@ -33,21 +33,21 @@ class Institution(models.Model):
         ("organizacja pozarządowa", "organizacja pozarządowa"),
         ("zbiórka lokalna", "zbiórka lokalna"),
     )
-    name = models.TextField
-    description = models.TextField
+    name = models.TextField()
+    description = models.TextField()
     subject = models.TextField(choices=INSTITUTION)
     categories = models.ManyToManyField(Category)
 
 
 class Donation(models.Model):
-    quantity = models.IntegerField
+    quantity = models.IntegerField()
     categories = models.ManyToManyField(Category)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     address = models.CharField(max_length=128)
     phone_number = PhoneNumberField(null=False, blank=False, unique=True)
-    city = models.TextField
+    city = models.TextField()
     zip_code = PLPostalCodeField()
-    pick_up_date = models.DateField
-    pick_up_time = models.TimeField
-    pick_up_comment = models.TextField
+    pick_up_date = models.DateField()
+    pick_up_time = models.TimeField()
+    pick_up_comment = models.TextField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
