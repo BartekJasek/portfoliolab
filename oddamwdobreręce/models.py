@@ -1,21 +1,17 @@
-from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 from localflavor.pl.forms import PLPostalCodeField
-
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+from django.utils.translation import gettext as _
 from .managers import CustomUserManager
 
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(_("email address"), unique=True)
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    date_joined = models.DateTimeField(default=timezone.now)
+class User(AbstractUser):
+    username = None
+    email = models.EmailField(_('email address'), unique=True)
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ('username',)
 
     objects = CustomUserManager()
 
@@ -50,4 +46,4 @@ class Donation(models.Model):
     pick_up_date = models.DateField()
     pick_up_time = models.TimeField()
     pick_up_comment = models.TextField()
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
