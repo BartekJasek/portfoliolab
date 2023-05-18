@@ -2,13 +2,12 @@ from phonenumber_field.modelfields import PhoneNumberField
 from localflavor.pl.forms import PLPostalCodeField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils.translation import gettext as _
 from .managers import CustomUserManager
 
 
 class User(AbstractUser):
     username = None
-    email = models.EmailField(_('email address'), unique=True)
+    email = models.EmailField(max_length=254, unique=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

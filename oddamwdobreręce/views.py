@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import Sum
-from .models import Donation, Institution
+from django.contrib.auth.decorators import login_required
+from .models import Donation, Institution, Category, User
 from .forms import UserCreationForm
 
 # Create your views here.
@@ -20,8 +21,11 @@ def landingpage(request):
                                           'collections': collections})
 
 
+#@login_required(login_url='/login')
 def addddonation(request):
-    return render(request, 'form.html')
+    categories = Category.objects.all()
+    fundations = Institution.objects.all()
+    return render(request, 'form.html', {'categories': categories, 'fundations': fundations})
 
 
 def login(request):
@@ -37,12 +41,17 @@ def login(request):
     return render(request, 'login.html')
 
 
+def logout(request):
+    logout(request)
+    return redirect('/')
+
+
 def register(request):
     if request.method == 'POST':
-        registerform = UserCreationForm(request.POST)
-        if registerform.is_valid():
-            user = registerform.save()
-            return redirect('/login')
-    else:
-        registerform = UserCreationForm()
-    return render(request, 'register.html', {'registerform': registerform})
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        first_name = request.POST.get('name')
+        last_name = request.POST.get('surname')
+        user = User.objects.create(email=email, password=password, first_name=first_name, last_name=last_name)
+        return redirect('/login .')
+    return render(request, 'register.html')
