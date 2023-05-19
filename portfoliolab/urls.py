@@ -19,9 +19,9 @@ from oddamwdobreręce import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.landingpage),
-    path('login/', views.login),
-    path('logout/', views.logout),
-    path('register/', views.register),
-    path('adddonation/', views.addddonation),
+    path('', views.LandingPage.as_view()),
+    path('login/', views.Login.as_view()),
+    path('logout/', views.Logout.as_view()),
+    path('register/', views.Register.as_view()),
+    path('adddonation/', views.AddDonation.as_view()),
 ]
