@@ -52,5 +52,5 @@ def register(request):
         first_name = request.POST.get('name')
         last_name = request.POST.get('surname')
         user = User.objects.create(email=email, password=password, first_name=first_name, last_name=last_name)
-        return redirect('/login .')
+        return redirect('/login')
     return render(request, 'register.html')
