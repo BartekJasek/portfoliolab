@@ -39,11 +39,9 @@ class Login(View):
     def post(self, request):
         loginform = LoginForm(request.POST)
         if loginform.is_valid():
-            print("OK")
             email = loginform.cleaned_data['email']
             password = loginform.cleaned_data['password']
             user = authenticate(request, username=email, password=password)
-            print(user)
             if user is not None:
                 login(request, user)
                 return redirect('/')
