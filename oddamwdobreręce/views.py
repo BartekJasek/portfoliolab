@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Sum
 from django.views import View
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Donation, Institution, Category
 from .forms import UserCreationForm, LoginForm
 
@@ -23,8 +23,8 @@ class LandingPage(View):
                                           'collections': collections})
 
 
-#@login_required(login_url='/login')
-class AddDonation(View):
+class AddDonation(LoginRequiredMixin, View):
+    login_url = '/login'
     def get(self, request):
         categories = Category.objects.all()
         fundations = Institution.objects.all()
